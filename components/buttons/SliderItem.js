@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        width: '250',
-        height: '250',
+        width: '200',
+        height: '200',
         justifyContent: 'center',
         padding: 30,
         marginBottom: 10,
@@ -70,17 +70,18 @@ const styles = StyleSheet.create({
         fontSize: 28,
         color: 'white',
         textAlign: 'center',
+        padding: 10,
     },
 
     description: {
-        fontWeight: '300',
+        fontWeight: '400',
         padding: 10,
         fontSize: 17,
         color: 'white',
         textAlign: 'center',
         marginHorizontal: 20,
         lineHeight: 25,
-        marginBottom: 20,
+        marginBottom: 30,
     },
 
     signUpButton: {
