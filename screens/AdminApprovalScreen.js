@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, FlatList, Alert } from 'react-native';
+import { View, SafeAreaView, Text, Button, TouchableOpacity, StyleSheet, FlatList, Alert } from 'react-native';
 
 const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
@@ -95,40 +95,91 @@ const AdminApprovalScreen = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Text style={styles.bold}>{item.first_name} {item.last_name}</Text>
-      <Text>Email: {item.email}</Text>
-      <Text>Phone: {item.phone_number}</Text>
-      <Text>DOB: {item.dob}</Text>
+      <Text style={styles.bold}>Name: {item.first_name} {item.last_name}</Text>
+      <Text style={styles.info}>Email: {item.email}</Text>
+      <Text style={styles.info}>Phone: {item.phone_number}</Text>
+      <Text style={styles.info}>DOB: {item.dob}</Text>
       <View style={styles.row}>
-        <Button title="Approve" onPress={() => handleDecision(item, true)} />
-        <View style={{ width: 10 }} />
-        <Button title="Deny" color="red" onPress={() => handleDecision(item, false)} />
+        <TouchableOpacity onPress={() => handleDecision(item, true)}>
+          <Text style={[styles.button, {backgroundColor: '#8bdb8dff'}]}>Approve</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleDecision(item, false)}>
+          <Text style={[styles.button, {backgroundColor: '#FA6B84'}]}>Deny</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Pending Field Worker Requests</Text>
-      {loading ? <Text>Loading...</Text> : (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Pending Field Worker Requests:</Text>
+      {loading ? <Text style={[styles.title, {textAlign: 'center'}]}>Loading...</Text> : (
         <FlatList
           data={requests}
           keyExtractor={item => item.id}
           renderItem={renderItem}
-          ListEmptyComponent={<Text>No pending requests</Text>}
+          ListEmptyComponent={<Text style={[styles.title, {textAlign: 'center'}]}>No pending requests</Text>}
         />
       )}
-      <Button title="Refresh" onPress={fetchRequests} />
-    </View>
+      <TouchableOpacity title="Refresh" onPress={fetchRequests}>
+        <Text style={[styles.button, {color: 'black', textAlign: 'center', marginVertical: 20}]}>Refresh</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 22, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
-  card: { padding: 16, borderRadius: 8, borderWidth: 1, borderColor: '#ccc', marginBottom: 14 },
-  bold: { fontWeight: 'bold', fontSize: 18, marginBottom: 4 },
-  row: { flexDirection: 'row', marginTop: 10 },
+  container: { 
+    flex: 1, 
+    padding: 20, 
+    justifyContent: 'space-between',
+    backgroundColor: '#f9f9f9', 
+  },
+
+  title: { 
+    fontSize: 20, 
+    color: 'black',
+    fontWeight: 'bold',
+    marginTop: 80, 
+    marginBottom: 40, 
+    textAlign: 'left', 
+    paddingHorizontal: 20
+  },
+
+  card: { 
+    padding: 20, 
+    borderRadius: 8, 
+    backgroundColor: '#f9f9f9',
+    marginBottom: 14, 
+    marginHorizontal: 20
+  },
+
+  info: {
+    padding: 8,
+    fontSize: 16,
+    marginBottom: 10,
+    lineHeight: 18,
+  },
+
+  bold: { 
+    fontWeight: 'bold', 
+    fontSize: 18, 
+    marginBottom: 10,
+    color: 'black'
+  },
+
+  row: { 
+    flexDirection: 'row', 
+    marginTop: 10 
+  },
+
+  button: {
+    borderRadius: 5,
+    padding: 10,
+    marginHorizontal: 5,
+    color: 'white',
+    fontWeight: 'bold',
+  }
 });
 
 export default AdminApprovalScreen;

@@ -67,7 +67,7 @@ export default function AddPatientPersonalScreen({ navigation, route }) {
       const data = await res.json();
       if (res.ok && data.length > 0) {
         const newPatient = data[0];
-        navigation.navigate('AddPatientVitals', {
+        navigation.navigate('AddVisit', {
           patientId: newPatient.id, // UUID from DB
           unique_id: newPatient.unique_id,
           personal: { ...form, unique_id }
@@ -84,10 +84,10 @@ export default function AddPatientPersonalScreen({ navigation, route }) {
 
   return (
     <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-      <Text style={styles.title}>Add Patient - Personal Details</Text>
-      <TextInput style={styles.input} placeholder="First Name*" value={form.first_name} onChangeText={v => handleChange('first_name', v)} />
-      <TextInput style={styles.input} placeholder="Last Name*" value={form.last_name} onChangeText={v => handleChange('last_name', v)} />
-      <TextInput style={styles.input} placeholder="Date of Birth (YYYY-MM-DD)*" value={form.dob} onChangeText={v => handleChange('dob', v)} />
+      <Text style={styles.title}>Personal Details</Text>
+      <TextInput style={styles.input} placeholder="First Name *" value={form.first_name} onChangeText={v => handleChange('first_name', v)} />
+      <TextInput style={styles.input} placeholder="Last Name *" value={form.last_name} onChangeText={v => handleChange('last_name', v)} />
+      <TextInput style={styles.input} placeholder="Date of Birth (YYYY-MM-DD) *" value={form.dob} onChangeText={v => handleChange('dob', v)} />
       <TextInput style={styles.input} placeholder="Email" value={form.email} keyboardType="email-address" onChangeText={v => handleChange('email', v)} />
       <TextInput style={styles.input} placeholder="Phone Number" value={form.phone_number} keyboardType="phone-pad" onChangeText={v => handleChange('phone_number', v)} />
       <TextInput style={styles.input} placeholder="Tribe" value={form.tribe} onChangeText={v => handleChange('tribe', v)} />
@@ -96,7 +96,7 @@ export default function AddPatientPersonalScreen({ navigation, route }) {
       {Platform.OS === 'ios' ? (
         <TouchableOpacity style={styles.pickerBox} onPress={openGenderPicker}>
           <Text style={{ color: form.gender ? '#111' : '#888', fontSize: 16 }}>
-            {form.gender ? form.gender : 'Select Gender*'}
+            {form.gender ? form.gender : 'Select Gender *'}
           </Text>
         </TouchableOpacity>
       ) : (
@@ -106,25 +106,44 @@ export default function AddPatientPersonalScreen({ navigation, route }) {
             onValueChange={v => handleChange('gender', v)}
             style={{ width: '100%' }}
           >
-            <Picker.Item label="Select Gender*" value="" />
+            <Picker.Item label="Select Gender *" value="" />
             {genderOptions.map(opt => (
               <Picker.Item label={opt} value={opt} key={opt} />
             ))}
           </Picker>
         </View>
       )}
-      <TextInput style={styles.input} placeholder="Password*" value={form.password} secureTextEntry onChangeText={v => handleChange('password', v)} />
-      <View style={styles.button}>
-        <Button title={loading ? "Submitting..." : "Next: Vitals"} onPress={handleNext} disabled={loading} />
-      </View>
+      <TextInput style={styles.input} placeholder="Password *" value={form.password} secureTextEntry onChangeText={v => handleChange('password', v)} />
+      <TouchableOpacity style={styles.button} onPress={handleNext}>
+        <Text style={styles.buttonText}>Next: Enter Vitals</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, alignItems: 'center', padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
-  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 6, width: '100%', marginBottom: 10, padding: 10, fontSize: 16 },
+  container: {
+    flexGrow: 1,
+    padding: 20,
+    backgroundColor: '#fff'
+  },
+
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center'
+  },
+
+  input: {
+    borderWidth: 1,
+    borderColor: '#e0e0e0ff',
+    borderRadius: 5,
+    marginBottom: 12,
+    padding: 12,
+    fontSize: 16
+  },
+
   pickerBox: {
     width: '100%',
     borderWidth: 1,
@@ -135,5 +154,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     justifyContent: 'center',
   },
-  button: { marginTop: 12, width: '100%' }
+
+  button: {
+    backgroundColor: 'black',
+    padding: 16,
+    marginTop: 12,
+    width: '100%',
+    borderRadius: 6,
+  },
+
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    padding: 7,
+    fontSize: 16,
+  }
 });

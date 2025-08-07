@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 
 const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
 
+// For testing:
+// FW-483681
+// pw: 123
 const FieldWorkerLoginScreen = ({ navigation }) => {
   const [uniqueId, setUniqueId] = useState('');
   const [password, setPassword] = useState('');
@@ -46,35 +49,71 @@ const FieldWorkerLoginScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Field Worker Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Unique ID (e.g. FW-123456)"
-        value={uniqueId}
-        autoCapitalize="characters"
-        onChangeText={setUniqueId}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        secureTextEntry
-        onChangeText={setPassword}
-      />
-      <Button
-        title={loading ? 'Logging in...' : 'Login'}
-        onPress={handleLogin}
-        disabled={loading}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.form}>
+        <Text style={styles.heading}>Field Worker Login</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Unique ID (e.g. FW-123456)"
+          value={uniqueId}
+          autoCapitalize="characters"
+          onChangeText={setUniqueId}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          secureTextEntry
+          onChangeText={setPassword}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>Login</Text>
+        </TouchableOpacity>
+      </View>
+
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16, backgroundColor: '#fff' },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
-  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 6, width: '100%', marginBottom: 14, padding: 10 }
+  container: {
+    flex: 1,
+    backgroundColor: '#2a9df4'
+  },
+
+  form: {
+    marginTop: 90,
+    alignSelf: 'center',
+    padding: 30,
+    backgroundColor: '#fff',
+    borderColor: '#e0e0e0',
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+
+  heading: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 22,
+    textAlign: 'center'
+  },
+
+  input: {
+    borderWidth: 1,
+    borderColor: '#e0e0e0ff',
+    borderRadius: 5,
+    marginBottom: 12,
+    padding: 12,
+    fontSize: 16
+  },
+
+  button: {
+    backgroundColor: 'black',
+    padding: 16,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 30,
+  }
 });
 
 export default FieldWorkerLoginScreen;

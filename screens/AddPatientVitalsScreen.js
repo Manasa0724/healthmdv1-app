@@ -84,6 +84,7 @@ export default function AskAIScreen({ navigation, route }) {
 
   // On mount, create initial system prompt message with visit history
   useEffect(() => {
+    // Getting error here: patient and visits are undefined
     const patientName = `${patient.first_name} ${patient.last_name}`.trim();
     const lastVisits = getLastNVisits(visits, 3);
     const systemPrompt = SYSTEM_PROMPT

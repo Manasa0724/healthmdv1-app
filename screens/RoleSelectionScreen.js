@@ -1,4 +1,6 @@
 // screens/RoleSelectionScreen.js
+// For now, this screen is not in use for role selection, see OnboardingScreen.js
+
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 

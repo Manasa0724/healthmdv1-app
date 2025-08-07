@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Alert, ScrollView } from 'react-native';
 
-const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co'; 
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc'; 
+const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
 
 const FieldWorkerSignupScreen = ({ navigation }) => {
   const [form, setForm] = useState({
@@ -77,63 +77,95 @@ const FieldWorkerSignupScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Field Worker Signup</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="First Name"
-        value={form.first_name}
-        onChangeText={v => handleChange('first_name', v)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Last Name"
-        value={form.last_name}
-        onChangeText={v => handleChange('last_name', v)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Date of Birth (YYYY-MM-DD)"
-        value={form.dob}
-        onChangeText={v => handleChange('dob', v)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={form.email}
-        keyboardType="email-address"
-        onChangeText={v => handleChange('email', v)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Phone Number"
-        value={form.phone_number}
-        keyboardType="phone-pad"
-        onChangeText={v => handleChange('phone_number', v)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={form.password}
-        secureTextEntry
-        onChangeText={v => handleChange('password', v)}
-      />
-      <View style={styles.button}>
-        <Button
-          title={loading ? "Submitting..." : "Submit Request"}
-          onPress={handleSignup}
-          disabled={loading}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.form}>
+        <Text style={styles.heading}>Field Worker Signup</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="First Name *"
+          value={form.first_name}
+          onChangeText={v => handleChange('first_name', v)}
         />
+        <TextInput
+          style={styles.input}
+          placeholder="Last Name *"
+          value={form.last_name}
+          onChangeText={v => handleChange('last_name', v)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Date of Birth (YYYY-MM-DD) *"
+          value={form.dob}
+          onChangeText={v => handleChange('dob', v)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email *"
+          value={form.email}
+          keyboardType="email-address"
+          onChangeText={v => handleChange('email', v)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Phone Number"
+          value={form.phone_number}
+          keyboardType="phone-pad"
+          onChangeText={v => handleChange('phone_number', v)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password *"
+          value={form.password}
+          secureTextEntry
+          onChangeText={v => handleChange('password', v)}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSignup}>
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>Sign Up</Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 22, fontWeight: 'bold', marginBottom: 16 },
-  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 6, width: '100%', marginBottom: 14, padding: 10 },
-  button: { marginTop: 10, width: '100%' }
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#2a9df4'
+  },
+
+  form: {
+    alignSelf: 'center',
+    padding: 30,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    borderColor: '#e0e0e0',
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+
+  heading: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 22,
+    textAlign: 'center'
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#e0e0e0ff',
+    borderRadius: 5,
+    marginBottom: 12,
+    padding: 12,
+    fontSize: 16
+  },
+  button: {
+    backgroundColor: 'black',
+    padding: 16,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 30,
+  }
 });
 
 export default FieldWorkerSignupScreen;

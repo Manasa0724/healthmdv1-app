@@ -1,6 +1,6 @@
 // screens/AddPatientSymptomsScreen.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 
 const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
@@ -74,18 +74,51 @@ export default function AddPatientSymptomsScreen({ navigation, route }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Symptoms & Notes</Text>
-      <TextInput style={[styles.input, { minHeight: 40 }]} placeholder="Symptoms" value={symptoms} multiline onChangeText={setSymptoms} />
-      <TextInput style={[styles.input, { minHeight: 40 }]} placeholder="Notes" value={notes} multiline onChangeText={setNotes} />
-      <View style={styles.button}>
-        <Button title={loading ? "Submitting..." : "Submit Patient"} onPress={handleSubmit} disabled={loading} />
-      </View>
+      <TextInput style={styles.input} placeholder="Enter patient's symptoms..." value={symptoms} multiline onChangeText={setSymptoms} />
+      <TextInput style={styles.input} placeholder="Enter notes..." value={notes} multiline onChangeText={setNotes} />
+      <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}> 
+        { loading ? (<Text style={styles.buttonText}>Submitting...</Text>) : (<Text style={styles.buttonText}>Submit Patient</Text>)}
+      </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, alignItems: 'center', padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 20 },
-  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 6, width: '100%', marginBottom: 10, padding: 10 },
-  button: { marginTop: 12, width: '100%' }
+  container: { 
+    flexGrow: 1, 
+    padding: 20, 
+    backgroundColor: '#fff' 
+  },
+
+  title: { 
+    fontSize: 20, 
+    fontWeight: 'bold', 
+    marginBottom: 20 
+  },
+
+   input: {
+    borderWidth: 1,
+    borderColor: '#e0e0e0ff',
+    borderRadius: 5,
+    marginBottom: 12,
+    padding: 12,
+    fontSize: 16,
+    minHeight: 100,
+  },
+
+  button: {
+    backgroundColor: 'black',
+    padding: 16,
+    marginTop: 40,
+    width: '100%',
+    borderRadius: 6,
+  },
+
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    padding: 7,
+    fontSize: 16,
+  }
 });

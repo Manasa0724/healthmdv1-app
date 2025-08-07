@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Core screens
+import LandingScreen from './screens/LandingScreen';
 import RoleSelectionScreen from './screens/RoleSelectionScreen';
 import FieldWorkerAuthScreen from './screens/FieldWorkerAuthScreen';
 import PatientAuthScreen from './screens/PatientAuthScreen';
@@ -14,6 +15,7 @@ import PatientLoginScreen from './screens/PatientLoginScreen';
 import AdminApprovalScreen from './screens/AdminApprovalScreen';
 import FieldWorkerLoginScreen from './screens/FieldWorkerLoginScreen';
 import FieldWorkerDashboardScreen from './screens/FieldWorkerDashboardScreen';
+import OnboardingScreen from './screens/Onboarding';
 
 // Add Patient multi-step flow
 import AddPatientPersonalScreen from './screens/AddPatientPersonalScreen';
@@ -39,59 +41,64 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="RoleSelection" screenOptions={{ headerBackTitle: 'Back' }}>
+      <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerBackTitle: 'Back' }}>
         {/* Auth and role selection */}
         <Stack.Screen
-          name="RoleSelection"
-          component={RoleSelectionScreen}
-          options={{ title: 'Choose Your Role', headerBackTitle: 'Back' }}
+          name="Landing"
+          component={LandingScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Onboarding"
+          component={OnboardingScreen}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="FieldWorkerAuth"
           component={FieldWorkerAuthScreen}
-          options={{ title: 'Field Worker' }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="PatientAuth"
           component={PatientAuthScreen}
-          options={{ title: 'Patient' }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="AdminLogin"
           component={AdminLoginScreen}
-          options={{ title: 'Admin Login' }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="FieldWorkerSignup"
           component={FieldWorkerSignupScreen}
-          options={{ title: 'Field Worker Signup' }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="PatientSignup"
           component={PatientSignupScreen}
-          options={{ title: 'Patient Signup' }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="PatientLogin"
           component={PatientLoginScreen}
-          options={{ title: 'Patient Login' }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="FieldWorkerLogin"
           component={FieldWorkerLoginScreen}
-          options={{ title: 'Field Worker Login' }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="AdminApproval"
           component={AdminApprovalScreen}
-          options={{ title: 'Approve Field Workers' }}
+          options={{ headerShown: false }}
         />
 
         {/* Dashboard */}
         <Stack.Screen
           name="FieldWorkerDashboard"
           component={FieldWorkerDashboardScreen}
-          options={{ title: 'Field Worker Dashboard', headerBackTitle: 'Logout' }}
+          options={{ headerShown: false }}
         />
 
         {/* Add Patient Multi-Step */}
@@ -152,9 +159,6 @@ export default function App() {
           component={AskAIScreen}
           options={{ title: 'Ask AI', headerBackTitle: 'Back' }}
         />
-
-
-
       </Stack.Navigator>
     </NavigationContainer>
   );
