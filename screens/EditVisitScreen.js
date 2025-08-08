@@ -32,7 +32,7 @@ export default function EditVisitScreen({ route, navigation }) {
   const VitalRow = ({ name, unitKey, label, options, placeholder }) => (
     <View style={styles.row}>
       <TextInput
-        style={[styles.input, { flex: 2 }]}
+        style={styles.vitalInput}
         placeholder={placeholder}
         value={vitals[name]}
         keyboardType="numeric"
@@ -40,7 +40,7 @@ export default function EditVisitScreen({ route, navigation }) {
       />
       {Platform.OS === 'ios' ? (
         <TouchableOpacity
-          style={[styles.pickerButton, { flex: 1 }]}
+          style={styles.pickerButton}
           onPress={() => setPickerModal({ visible: true, field: unitKey, options })}
         >
           <Text>{vitals[unitKey]}</Text>
@@ -176,31 +176,107 @@ export default function EditVisitScreen({ route, navigation }) {
         onChangeText={v => handleChange('notes', v)}
         multiline
       />
-      <View style={styles.button}>
-        <Button title={loading ? 'Saving...' : 'Save Changes'} onPress={handleSubmit} disabled={loading} />
-      </View>
+      <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={loading}>
+        <Text style={styles.buttonText}>{loading ? 'Saving...' : 'Save Changes'}</Text>
+      </TouchableOpacity>
+
       {renderPickerModal()}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, alignItems: 'center', padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 20 },
-  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 6, width: '100%', marginBottom: 10, padding: 10, backgroundColor: '#fff' },
-  row: { flexDirection: 'row', alignItems: 'center', marginBottom: 10, width: '100%' },
+    container: {
+    flexGrow: 1,
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#fff'
+  },
+
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20
+  },
+
+  vitalInput: {
+    borderWidth: 1,
+    width: '60%',
+    height: '100%',
+    borderColor: '#e0e0e0ff',
+    borderRadius: 5,
+    marginBottom: 12,
+    padding: 12,
+    fontSize: 16,
+  },
+
+  input: {
+    borderWidth: 1,
+    width: '83%',
+    height: 50,
+    borderColor: '#e0e0e0ff',
+    borderRadius: 5,
+    marginBottom: 12,
+    padding: 12,
+    fontSize: 16,
+  },
+
+  row: {
+    height: 50,
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+
   pickerButton: {
-    borderWidth: 1, borderColor: '#ccc', borderRadius: 6, padding: 10,
-    alignItems: 'center', backgroundColor: '#eee', marginLeft: 8,
+    padding: 5,
+    borderWidth: 1,
+    width: 70,
+    borderColor: '#ccc',
+    borderRadius: 6,
+    justifyContent: 'center',
+    backgroundColor: '#eee',
+    marginLeft: 10,
   },
-  button: { marginTop: 12, width: '100%' },
+
+  pickerButtonText: {
+    fontSize: 10,
+    textAlign: 'center',
+  },
+
+  button: {
+    backgroundColor: 'black',
+    padding: 16,
+    marginTop: 12,
+    width: '100%',
+    borderRadius: 6,
+  },
+
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    padding: 7,
+    fontSize: 16,
+  },
+
   modalOverlay: {
-    flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.2)'
+    flex: 1,
+    justifyContent: 'flex-end',
+    padding: 30,
+    paddingBottom: 70,
+    backgroundColor: 'rgba(0,0,0,0.1)'
   },
+
   modalContent: {
-    backgroundColor: '#fff', padding: 18, borderTopLeftRadius: 12, borderTopRightRadius: 12, maxHeight: '40%'
+    backgroundColor: '#fff',
+    padding: 18,
+    borderRadius: 10,
+    maxHeight: '40%'
   },
+
   modalItem: {
-    paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: '#eee'
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
   },
 });

@@ -33,19 +33,19 @@ export default function VisitHistoryScreen({ route, navigation }) {
       <Text style={styles.date}>
         {item.visit_date ? item.visit_date.slice(0, 16).replace('T', ' ') : '-'}
       </Text>
-      <Text>Weight: {item.weight ? `${item.weight} ${item.weight_unit}` : '-'}</Text>
-      <Text>Height: {item.height ? `${item.height} ${item.height_unit}` : '-'}</Text>
-      <Text>BP: {item.bp ? `${item.bp} ${item.bp_unit}` : '-'}</Text>
-      <Text>Pulse: {item.pulse ? `${item.pulse} ${item.pulse_unit}` : '-'}</Text>
-      <Text>Sugar: {item.sugar ? `${item.sugar} ${item.sugar_unit}` : '-'}</Text>
-      <Text>SpO2: {item.spo2 ? `${item.spo2} ${item.spo2_unit}` : '-'}</Text>
-      <Text>Thermal Scan: {item.thermal_scan ? `${item.thermal_scan} ${item.thermal_scan_unit}` : '-'}</Text>
-      <Text>Pulse Oximeter: {item.pulse_oximeter ? `${item.pulse_oximeter} ${item.pulse_oximeter_unit}` : '-'}</Text>
-      <Text>Glucometer: {item.glucometer ? `${item.glucometer} ${item.glucometer_unit}` : '-'}</Text>
-      <Text>Scale: {item.scale ? `${item.scale} ${item.scale_unit}` : '-'}</Text>
-      <Text>Swab/Virus Result: {item.swab_result || '-'}</Text>
-      <Text>Symptoms: {item.symptoms || '-'}</Text>
-      <Text>Notes: {item.notes || '-'}</Text>
+      <Text style={styles.patientInfo}>Weight: {item.weight ? `${item.weight} ${item.weight_unit}` : '-'}</Text>
+      <Text style={styles.patientInfo}>Height: {item.height ? `${item.height} ${item.height_unit}` : '-'}</Text>
+      <Text style={styles.patientInfo}>BP: {item.bp ? `${item.bp} ${item.bp_unit}` : '-'}</Text>
+      <Text style={styles.patientInfo}>Pulse: {item.pulse ? `${item.pulse} ${item.pulse_unit}` : '-'}</Text>
+      <Text style={styles.patientInfo}>Sugar: {item.sugar ? `${item.sugar} ${item.sugar_unit}` : '-'}</Text>
+      <Text style={styles.patientInfo}>SpO2: {item.spo2 ? `${item.spo2} ${item.spo2_unit}` : '-'}</Text>
+      <Text style={styles.patientInfo}>Thermal Scan: {item.thermal_scan ? `${item.thermal_scan} ${item.thermal_scan_unit}` : '-'}</Text>
+      <Text style={styles.patientInfo}>Pulse Oximeter: {item.pulse_oximeter ? `${item.pulse_oximeter} ${item.pulse_oximeter_unit}` : '-'}</Text>
+      <Text style={styles.patientInfo}>Glucometer: {item.glucometer ? `${item.glucometer} ${item.glucometer_unit}` : '-'}</Text>
+      <Text style={styles.patientInfo}>Scale: {item.scale ? `${item.scale} ${item.scale_unit}` : '-'}</Text>
+      <Text style={styles.patientInfo}>Swab/Virus Result: {item.swab_result || '-'}</Text>
+      <Text style={styles.patientInfo}>Symptoms: {item.symptoms || '-'}</Text>
+      <Text style={styles.patientInfo}>Notes: {item.notes || '-'}</Text>
       {/* EDIT VISIT BUTTON */}
       <TouchableOpacity
         style={styles.editButton}
@@ -73,25 +73,45 @@ export default function VisitHistoryScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  heading: { fontSize: 22, fontWeight: 'bold', marginBottom: 18, textAlign: 'center' },
+  heading: { 
+    fontSize: 22, 
+    fontWeight: 'bold', 
+    marginBottom: 18, 
+    textAlign: 'center' 
+  },
+
   card: {
-    padding: 16,
+    padding: 20,
     borderRadius: 10,
     backgroundColor: '#f7f7fa',
     marginBottom: 18,
     borderWidth: 1,
     borderColor: '#eee'
   },
-  date: { fontWeight: 'bold', color: '#2d55a6', marginBottom: 6 },
+  
+  date: { 
+    fontWeight: 'bold', 
+    color: '#2d55a6', 
+    marginBottom: 10,
+  },
+
   editButton: {
     marginTop: 10,
     paddingVertical: 8,
     paddingHorizontal: 18,
     borderRadius: 6,
-    backgroundColor: '#1976d2',
+    backgroundColor: 'black',
     alignSelf: 'flex-start',
   },
+
+  patientInfo: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+
   editButtonText: {
-    color: '#fff', fontWeight: 'bold', fontSize: 16,
-  }
+    color: '#fff', fontWeight: 'bold',
+  },
+
+
 });

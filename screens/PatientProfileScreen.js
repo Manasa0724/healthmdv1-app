@@ -131,48 +131,86 @@ export default function PatientProfileScreen({ route, navigation }) {
       {renderLatestVisit()}
 
       <View style={styles.btnGroup}>
-        <Button title="Visit History" onPress={() => navigation.navigate('VisitHistory', { patientId: patient.id  })} />
-        <Button title="New Visit" color="#388e3c" onPress={() => navigation.navigate('AddVisit', { patientId: patient.id, uniqueId: patient.unique_id })} />
-      </View>
+         <TouchableOpacity style={[styles.button, {backgroundColor: '#388e3c'}]} onPress={() => navigation.navigate('AddVisit', { patientId: patient.id, uniqueId: patient.unique_id })}>
+          <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Add New Visit</Text>
+        </TouchableOpacity>
 
-      {/* ---- ASK AI BUTTON ---- */}
-      <TouchableOpacity
-        style={styles.askAIButton}
-        onPress={() => {
-          navigation.navigate('AskAI', {
-            patient,
-            visits,
-            patientId: patient.id,
-            latestVitals: formatVitals(latestVisit),
-            latestSymptoms: latestVisit?.symptoms || '',
-          });
-        }}
-      >
-        <Text style={styles.askAIText}>Ask AI</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, {backgroundColor: 'black'}]} onPress={() => navigation.navigate('VisitHistory', { patientId: patient.id })}>
+          <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>View Visit History</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, {backgroundColor: 'black'}]}
+          onPress={() => {
+            navigation.navigate('AskAI', {
+              patient,
+              visits,
+              patientId: patient.id,
+              latestVitals: formatVitals(latestVisit),
+              latestSymptoms: latestVisit?.symptoms || '',
+            });
+          }}
+        >
+          <Text style={styles.askAIText}>Ask AI</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: '#fff', flex: 1, padding: 20 },
-  heading: { fontSize: 22, fontWeight: 'bold', marginBottom: 12, textAlign: 'center' },
-  subheading: { fontSize: 18, fontWeight: 'bold', marginTop: 20, marginBottom: 8 },
-  row: { flexDirection: 'row', marginBottom: 6, alignItems: 'center' },
-  rowLabel: { width: 130, color: '#666', fontWeight: '600' },
-  rowValue: { flex: 1, fontSize: 16 },
-  btnGroup: { marginTop: 25, gap: 12 },
-  askAIButton: {
-    marginTop: 22,
-    alignSelf: 'center',
-    backgroundColor: '#1976d2',
-    paddingHorizontal: 26,
-    paddingVertical: 11,
-    borderRadius: 7,
+  container: { 
+    backgroundColor: '#fff', 
+    flex: 1, 
+    padding: 40,
+    borderColor: '#e0e0e0',
   },
+
+  heading: { 
+    fontSize: 22, 
+    fontWeight: 'bold', 
+    marginBottom: 30, 
+    textAlign: 'center' 
+  },
+
+  subheading: { 
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    marginTop: 20, 
+    marginBottom: 20,
+  },
+
+  row: { 
+    flexDirection: 'row', 
+    marginBottom: 13, 
+  },
+
+  rowLabel: { 
+    width: '130',
+    textAlign: 'left',
+    color: '#666', 
+    fontWeight: '600',
+    fontSize: 16,
+  },
+
+  rowValue: { 
+    fontSize: 16 
+  },
+
+  btnGroup: { 
+    marginTop: 40, 
+  },
+
   askAIText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 17,
+    textAlign: 'center'
   },
+
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+    marginBottom: 10,
+  }
 });

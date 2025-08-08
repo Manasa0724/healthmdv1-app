@@ -87,15 +87,35 @@ export default function PatientListScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff', padding: 20 },
-  heading: { fontSize: 22, fontWeight: 'bold', marginBottom: 18, textAlign: 'center' },
+  heading: { 
+    fontSize: 22, 
+    fontWeight: 'bold', 
+    marginBottom: 18, 
+    textAlign: 'center' 
+  },
+
   search: {
     borderWidth: 1, borderColor: '#bbb', borderRadius: 7,
     padding: 10, marginBottom: 15, fontSize: 16
   },
+
   card: {
-    backgroundColor: '#f8f9fb', borderRadius: 8, padding: 15,
-    marginBottom: 14, borderWidth: 1, borderColor: '#e2e2e2'
+    backgroundColor: '#f8f9fb', 
+    borderRadius: 8, 
+    padding: 15,
+    marginBottom: 14, 
+    borderWidth: 1, 
+    borderColor: '#e2e2e2',
   },
-  name: { fontWeight: 'bold', fontSize: 18, marginBottom: 2 },
-  details: { fontSize: 14, color: '#555' },
+  
+  name: { 
+    fontWeight: 'bold', 
+    fontSize: 18, 
+    marginBottom: 2 
+  },
+
+  details: { 
+    fontSize: 14, 
+    color: '#555' 
+  },
 });

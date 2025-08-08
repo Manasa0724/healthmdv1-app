@@ -30,14 +30,8 @@ const FieldWorkerLoginScreen = ({ navigation }) => {
       );
       const data = await res.json();
       if (data.length === 1) {
-        Alert.alert('Login successful!', `Welcome, ${data[0].first_name}`, [
-          {
-            text: 'Continue',
-            onPress: () => {
-              navigation.replace('FieldWorkerDashboard', { user: data[0] });
-            },
-          },
-        ]);
+        navigation.replace('FieldWorkerDashboard', { user: data[0] });
+
       } else {
         Alert.alert('Login failed', 'Invalid credentials or user not approved.');
       }

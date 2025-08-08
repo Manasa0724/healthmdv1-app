@@ -4,6 +4,10 @@ import { View, Text, TextInput, ImageBackground, SafeAreaView, TouchableOpacity,
 const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
 
+// For testing:
+// PT-313429
+// pw: 123
+
 export default function PatientLoginScreen({ navigation }) {
   const [unique_id, setUniqueId] = useState('');
   const [password, setPassword] = useState('');

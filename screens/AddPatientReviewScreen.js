@@ -115,10 +115,35 @@ function formatLabel(s) {
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 22, fontWeight: 'bold', marginBottom: 18, textAlign: 'center' },
-  section: { marginBottom: 15 },
-  sectionTitle: { fontWeight: 'bold', fontSize: 16, marginBottom: 6, textDecorationLine: 'underline' },
-  fieldKey: { fontWeight: 'bold' },
-  button: { marginTop: 20 }
+  container: { 
+    flexGrow: 1, 
+    padding: 20, 
+    backgroundColor: '#fff' 
+  },
+
+  title: { 
+    fontSize: 22, 
+    fontWeight: 'bold', 
+    marginBottom: 18, 
+    textAlign: 'center' 
+  },
+
+  section: { 
+    marginBottom: 15 
+  },
+
+  sectionTitle: { 
+    fontWeight: 'bold', 
+    fontSize: 16, 
+    marginBottom: 6, 
+    textDecorationLine: 'underline' 
+  },
+
+  fieldKey: { 
+    fontWeight: 'bold' 
+  },
+
+  button: { 
+    marginTop: 20 
+  }
 });
