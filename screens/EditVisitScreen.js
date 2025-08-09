@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ScrollView, StyleSheet, Platform, TouchableOpacity, Modal, FlatList, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
+// Embedding utilities
+import { generateEmbedding } from '../utils/embeddings';
+
 const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
 
@@ -94,6 +97,24 @@ export default function EditVisitScreen({ route, navigation }) {
   const handleSubmit = async () => {
     setLoading(true);
     try {
+      // Build a summary string representing the updated vitals for embedding purposes
+      const summaryParts = [
+        `weight:${vitals.weight || 'NA'} ${vitals.weight_unit}`,
+        `height:${vitals.height || 'NA'} ${vitals.height_unit}`,
+        `bp:${vitals.bp || 'NA'} ${vitals.bp_unit}`,
+        `pulse:${vitals.pulse || 'NA'} ${vitals.pulse_unit}`,
+        `sugar:${vitals.sugar || 'NA'} ${vitals.sugar_unit}`,
+        `spo2:${vitals.spo2 || 'NA'} ${vitals.spo2_unit}`,
+        `thermal:${vitals.thermal_scan || 'NA'} ${vitals.thermal_scan_unit}`,
+        `pulse_oximeter:${vitals.pulse_oximeter || 'NA'} ${vitals.pulse_oximeter_unit}`,
+        `glucometer:${vitals.glucometer || 'NA'} ${vitals.glucometer_unit}`,
+        `scale:${vitals.scale || 'NA'} ${vitals.scale_unit}`,
+        `swab_result:${vitals.swab_result || 'NA'}`,
+        `symptoms:${vitals.symptoms || 'NA'}`,
+        `notes:${vitals.notes || 'NA'}`,
+      ];
+      const summary = summaryParts.join(', ');
+      const embedding = await generateEmbedding(summary);
       const res = await fetch(`${SUPABASE_URL}/rest/v1/visits?id=eq.${visit.id}`, {
         method: 'PATCH',
         headers: {
@@ -126,6 +147,8 @@ export default function EditVisitScreen({ route, navigation }) {
           swab_result: vitals.swab_result,
           symptoms: vitals.symptoms,
           notes: vitals.notes,
+          summary,
+          vector_embedding: embedding,
         }),
       });
       const data = await res.json();
