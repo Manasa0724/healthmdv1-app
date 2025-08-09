@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ScrollView, StyleSheet, Platform, TouchableOpacity, Modal, FlatList, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { getEmbedding } from "../utils/embeddings";
 
 const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
@@ -207,3 +208,28 @@ const styles = StyleSheet.create({
     paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: '#eee'
   },
 });
+
+async function onSave() {
+  try {
+    const vector = await getEmbedding(summary);
+
+    const { data, error } = await supabase
+      .from("visits")
+      .insert([{
+        summary,
+        bp_systolic: +bpSys || null,
+        bp_diastolic: +bpDia || null,
+        heart_rate: +hr || null,
+        vector_embedding: vector, // <-- this saves the vector
+      }])
+      .select()
+      .single();
+
+    if (error) throw error;
+    Alert.alert("Saved", "Visit added.");
+    navigation.goBack();
+  } catch (e) {
+    console.error(e);
+    Alert.alert("Error", e.message || "Failed to save visit");
+  }
+}

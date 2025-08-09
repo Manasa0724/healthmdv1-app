@@ -30,6 +30,7 @@ import PatientListScreen from './screens/PatientListScreen';
 import PatientProfileScreen from './screens/PatientProfileScreen'; // create this next!
 import AddVisitScreen from './screens/AddVisitScreen';
 import EditVisitScreen from './screens/EditVisitScreen';
+import SimilarVisitsScreen from "./screens/SimilarVisitsScreen";
 
 
 import AskAIScreen from './screens/AskAIScreen';
@@ -151,6 +152,11 @@ export default function App() {
           name="AskAI"
           component={AskAIScreen}
           options={{ title: 'Ask AI', headerBackTitle: 'Back' }}
+        />
+
+        <Stack.Screen 
+          name="SimilarVisits" 
+          component={SimilarVisitsScreen} 
         />
 
 

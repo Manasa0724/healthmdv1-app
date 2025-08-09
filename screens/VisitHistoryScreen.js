@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
+import { VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryScatter } from "victory-native";
 
 const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
@@ -95,3 +96,39 @@ const styles = StyleSheet.create({
     color: '#fff', fontWeight: 'bold', fontSize: 16,
   }
 });
+
+{item.vector_embedding ? (
+  <TouchableOpacity
+    style={{ marginTop: 6 }}
+    onPress={() =>
+      navigation.navigate("SimilarVisits", {
+        seedVector: item.vector_embedding,
+        patientId: item.patient_id || null,
+        minSim: 0.75,
+      })
+    }
+  >
+    <Text style={{ color: "#2563eb" }}>Find similar visits</Text>
+  </TouchableOpacity>
+) : null}
+
+// after you load 'rows'
+const trendDataSys = (rows || [])
+  .filter(r => r.bp_systolic != null)
+  .map(r => ({ x: new Date(r.recorded_at), y: r.bp_systolic }));
+
+const trendDataDia = (rows || [])
+  .filter(r => r.bp_diastolic != null)
+  .map(r => ({ x: new Date(r.recorded_at), y: r.bp_diastolic }));
+
+// add this near the top of the screen UI:
+{(trendDataSys.length > 1 || trendDataDia.length > 1) && (
+  <VictoryChart theme={VictoryTheme.material} scale={{ x: "time" }}>
+    <VictoryAxis fixLabelOverlap />
+    <VictoryAxis dependentAxis />
+    <VictoryLine data={trendDataSys} />
+    <VictoryScatter data={trendDataSys} size={3} />
+    <VictoryLine data={trendDataDia} />
+    <VictoryScatter data={trendDataDia} size={3} />
+  </VictoryChart>
+)}

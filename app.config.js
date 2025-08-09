@@ -26,8 +26,9 @@ export default ({ config }) => ({
     favicon: "./assets/favicon.png"
   },
   extra: {
-    ...config.extra,
-    OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || ""
-  }
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    SUPABASE_URL: process.env.SUPABASE_URL,
+    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
+  },
 });
 
