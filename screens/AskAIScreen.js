@@ -353,7 +353,94 @@ export default function AskAIScreen({ route }) {
     }
   }
 
-  // 6) send chat
+  const askAboutHistory = async (type) => {
+    setLoading(true);
+    
+    try {
+      let queryText = '';
+      let promptText = '';
+      
+      if (type === 'improvement') {
+        queryText = `patient ${patient?.first_name} ${patient?.last_name} improvement suggestions based on medical history`;
+        promptText = `Based on my medical history and past consultations, how can I improve my health? Please analyze my previous symptoms, treatments, and outcomes to provide specific, actionable recommendations for improvement.`;
+      } else if (type === 'treatment') {
+        queryText = `patient ${patient?.first_name} ${patient?.last_name} treatment history what worked`;
+        promptText = `Based on my medical history and past consultations, what treatments have worked for me in the past? Please analyze my previous symptoms, treatments, and outcomes to identify what has been effective.`;
+      }
+      
+      const queryVec = await embedText(queryText, {
+        model: 'gemini-embedding-001',
+      });
+      
+      const rpcRes = await fetch(`${SUPABASE_URL}/rest/v1/rpc/similar_sessions`, {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          p_patient_id: patientId,
+          p_query_vec: queryVec,
+          p_match_count: 10,
+        }),
+      });
+      
+      let relevantSessions = [];
+      if (rpcRes.ok) {
+        relevantSessions = await rpcRes.json();
+      }
+      
+      const historyContext = relevantSessions.length > 0 
+        ? `\n\nRelevant medical history from past consultations:\n${relevantSessions.map(s => 
+            `${s.created_at?.slice(0, 10) || 'Unknown date'}: ${s.summary || 'No summary available'}`
+          ).join('\n\n')}`
+        : '\n\nNo relevant past consultations found.';
+      
+      const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'healthmdv1://app',
+          'X-Title': 'HealthMDv1',
+        },
+        body: JSON.stringify({
+          model: 'openai/gpt-3.5-turbo',
+          messages: [
+            { 
+              role: 'system', 
+              content: `You are a medical AI assistant analyzing a patient's medical history. Provide clear, actionable advice based on the patient's past consultations and outcomes.${historyContext}` 
+            },
+            { role: 'user', content: promptText }
+          ],
+          max_tokens: 800,
+        }),
+      });
+      
+      const raw = await resp.text();
+      let data;
+      try { data = JSON.parse(raw); }
+      catch { throw new Error(`History API HTTP ${resp.status}`); }
+      
+      const reply = data?.choices?.[0]?.message?.content?.trim() || 'Unable to analyze medical history.';
+      
+      setMessages([
+        { role: 'system', content: messages[0]?.content || SYSTEM_PROMPT },
+        { role: 'assistant', content: reply },
+      ]);
+      
+    } catch (e) {
+      setMessages([
+        { role: 'system', content: messages[0]?.content || SYSTEM_PROMPT },
+        { role: 'assistant', content: `Error analyzing medical history: ${e.message}` },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 7) send chat
   const sendToAI = async (userMessage) => {
     if (!userMessage?.trim()) return;
     setLoading(true);
@@ -473,6 +560,24 @@ export default function AskAIScreen({ route }) {
           }
         />
 
+        {/* Quick Action Buttons */}
+        <View style={styles.quickActionsRow}>
+          <TouchableOpacity
+            style={styles.quickActionBtn}
+            disabled={loading}
+            onPress={() => askAboutHistory('improvement')}
+          >
+            <Text style={styles.quickActionText}>How can I improve?</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.quickActionBtn}
+            disabled={loading}
+            onPress={() => askAboutHistory('treatment')}
+          >
+            <Text style={styles.quickActionText}>What treatments worked?</Text>
+          </TouchableOpacity>
+        </View>
+
         {/* Input row */}
         <View style={styles.inputRow}>
           <TextInput
@@ -516,6 +621,23 @@ const styles = StyleSheet.create({
   bubble: { marginVertical: 4, padding: 12, borderRadius: 10, maxWidth: '86%' },
   aiBubble: { backgroundColor: '#e9f4fd', alignSelf: 'flex-start' },
   userBubble: { backgroundColor: '#1976d2', alignSelf: 'flex-end' },
+  quickActionsRow: { flexDirection: 'row', padding: 8, borderTopWidth: 1, borderColor: '#eee', backgroundColor: '#f8f9fa' },
+  quickActionBtn: { 
+    flex: 1, 
+    backgroundColor: '#e3f2fd', 
+    borderRadius: 15, 
+    paddingVertical: 8, 
+    paddingHorizontal: 12, 
+    marginHorizontal: 4,
+    borderWidth: 1,
+    borderColor: '#bbdefb'
+  },
+  quickActionText: { 
+    color: '#1976d2', 
+    fontSize: 12, 
+    fontWeight: '600', 
+    textAlign: 'center' 
+  },
   inputRow: { flexDirection: 'row', padding: 8, borderTopWidth: 1, borderColor: '#eee' },
   input: { flex: 1, borderWidth: 1, borderColor: '#ccc', borderRadius: 20, padding: 10, marginRight: 8, backgroundColor: '#fff' },
   sendBtn: { backgroundColor: '#1976d2', borderRadius: 20, paddingVertical: 9, paddingHorizontal: 18 },
