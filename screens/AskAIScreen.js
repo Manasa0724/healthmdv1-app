@@ -183,7 +183,7 @@ export default function AskAIScreen({ route }) {
 
         // Create embedding for the query
         const queryVec = await embedText(queryText, {
-          model: 'openai/text-embedding-3-small',
+          model: 'gemini-embedding-001',
         });
 
         // Try RPC first

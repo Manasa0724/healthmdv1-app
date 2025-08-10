@@ -1,51 +1,54 @@
 // utils/embeddings.js
 import Constants from 'expo-constants';
 
-const OPENROUTER_API_KEY =
-  Constants.expoConfig?.extra?.OPENROUTER_API_KEY ||
-  Constants.manifest?.extra?.OPENROUTER_API_KEY ||
+const GEMINI_API_KEY =
+  Constants.expoConfig?.extra?.GEMINI_API_KEY ||
+  Constants.manifest?.extra?.GEMINI_API_KEY ||
   '';
 
-const OPENROUTER_API_URL = 'https://api.openrouter.ai/v1/embeddings'; // <-- IMPORTANT
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent';
 
 export async function embedText(
   text,
-  { model = 'openai/text-embedding-3-small' } = {}
+  { model = 'gemini-embedding-001' } = {}
 ) {
-  if (!OPENROUTER_API_KEY) {
-    throw new Error('Missing OPENROUTER_API_KEY');
+  if (!GEMINI_API_KEY || GEMINI_API_KEY === '') {
+    throw new Error('Missing GEMINI_API_KEY - Please add your Gemini API key to the .env file');
   }
   if (!text || typeof text !== 'string') {
     throw new Error('embedText: `text` must be a non-empty string');
   }
 
   const headers = {
-    Authorization: `Bearer ${OPENROUTER_API_KEY}`,
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    // OpenRouter likes a referer & title; send both header spellings to be safe:
-    Referer: 'https://healthmdv1.app',
-    'HTTP-Referer': 'https://healthmdv1.app',
-    'X-Title': 'HealthMDv1',
   };
 
-  const body = JSON.stringify({ model, input: text });
+  const body = JSON.stringify({ 
+    model: "models/gemini-embedding-001",
+    content: {
+      parts: [
+        {
+          text: text
+        }
+      ]
+    }
+  });
 
-  const resp = await fetch(OPENROUTER_API_URL, {
+  const url = `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`;
+
+  const resp = await fetch(url, {
     method: 'POST',
     headers,
     body,
   });
 
-  // Read as text first for useful error printing
   const raw = await resp.text();
 
-  // If not JSON, show a helpful snippet
   let parsed;
   try {
     parsed = JSON.parse(raw);
   } catch {
-    // If you see <!DOCTYPE html>, you’re not hitting the JSON API.
     console.warn('[embedText] Non-JSON response', {
       status: resp.status,
       url: resp.url,
@@ -64,9 +67,15 @@ export async function embedText(
     throw new Error(`Embedding failed: ${msg}`);
   }
 
-  const vec = parsed?.data?.[0]?.embedding;
+  const vec = parsed?.embedding?.values;
   if (!Array.isArray(vec)) {
-    throw new Error('Embedding failed: missing `data[0].embedding`');
+    console.warn('[embedText] Unexpected response structure:', parsed);
+    throw new Error('Embedding failed: missing embedding values in response');
   }
-  return vec;
+  
+  // Truncate to 1536 dimensions to match database constraint
+  const truncatedVec = vec.slice(0, 1536);
+  console.log(`[embedText] Generated ${vec.length}-dim embedding, truncated to ${truncatedVec.length} dimensions`);
+  
+  return truncatedVec;
 }
