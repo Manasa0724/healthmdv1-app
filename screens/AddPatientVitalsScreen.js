@@ -5,7 +5,7 @@ import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Keyboard
 import { Ionicons } from '@expo/vector-icons';
 
 // !! PLACE YOUR OPENROUTER API KEY HERE !! (for testing; use env for production)
-const OPENROUTER_API_KEY = "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";
+const OPENROUTER_API_KEY = "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";
 
 const SYSTEM_PROMPT = `
 You are the world's leading virtual diagnostic doctor. A patient presents their visit data in the structured JSON format below.

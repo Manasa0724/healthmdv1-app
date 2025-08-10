@@ -28,7 +28,7 @@ export default {
       favicon: "./assets/favicon.png"
     },
     extra: {
-       "OPENROUTER_API_KEY": process.env.OPENROUTER_API_KEY || "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",
+       "OPENROUTER_API_KEY": process.env.OPENROUTER_API_KEY || "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",
        "GEMINI_API_KEY": process.env.GEMINI_API_KEY,
       SUPABASE_URL: process.env.SUPABASE_URL,
       SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY
