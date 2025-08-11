@@ -150,6 +150,20 @@ export default function PatientProfileScreen({ route, navigation }) {
       >
         <Text style={styles.askAIText}>Ask AI</Text>
       </TouchableOpacity>
+
+            {/* ---- TRENDS BUTTON ---- */}
+      <TouchableOpacity
+        style={styles.trendsButton}
+        onPress={() => {
+          navigation.navigate('Trends', {
+            patientId: patient.id,
+            visits,
+          });
+        }}
+      >
+        <Text style={styles.trendsText}>View Trends</Text>
+      </TouchableOpacity>
+
     </ScrollView>
   );
 }
@@ -171,6 +185,20 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   askAIText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 17,
+  },
+
+  trendsButton: {
+    marginTop: 12,
+    alignSelf: 'center',
+    backgroundColor: '#6a1b9a',
+    paddingHorizontal: 26,
+    paddingVertical: 11,
+    borderRadius: 7,
+  },
+  trendsText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 17,

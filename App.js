@@ -34,6 +34,8 @@ import EditVisitScreen from './screens/EditVisitScreen';
 
 import AskAIScreen from './screens/AskAIScreen';
 
+import TrendsScreen from './screens/TrendsScreen';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -151,6 +153,12 @@ export default function App() {
           name="AskAI"
           component={AskAIScreen}
           options={{ title: 'Ask AI', headerBackTitle: 'Back' }}
+        />
+
+        <Stack.Screen
+          name="Trends"
+          component={TrendsScreen}
+          options={{ title: 'Health Trends', headerBackTitle: 'Back' }}
         />
 
 

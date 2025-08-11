@@ -93,5 +93,19 @@ const styles = StyleSheet.create({
   },
   editButtonText: {
     color: '#fff', fontWeight: 'bold', fontSize: 16,
-  }
+  },
+
+  trendsButton: {
+    marginTop: 6,
+    backgroundColor: '#6a1b9a',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 6,
+  },
+  trendsButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+
 });
