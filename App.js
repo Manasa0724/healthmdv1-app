@@ -56,49 +56,49 @@ export default function App() {
         <Stack.Screen
           name="FieldWorkerAuth"
           component={FieldWorkerAuthScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="PatientAuth"
           component={PatientAuthScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="AdminLogin"
           component={AdminLoginScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true, headerTitle: '' }}
         />
         <Stack.Screen
           name="FieldWorkerSignup"
           component={FieldWorkerSignupScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true, headerTitle: '' }}
         />
         <Stack.Screen
           name="PatientSignup"
           component={PatientSignupScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true, headerTitle: '' }}
         />
         <Stack.Screen
           name="PatientLogin"
           component={PatientLoginScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true, headerTitle: ''}}
         />
         <Stack.Screen
           name="FieldWorkerLogin"
           component={FieldWorkerLoginScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true, headerTitle: '' }}
         />
         <Stack.Screen
           name="AdminApproval"
           component={AdminApprovalScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true }}
         />
 
         {/* Dashboard */}
         <Stack.Screen
           name="FieldWorkerDashboard"
           component={FieldWorkerDashboardScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true, headerTitle: '' }}
         />
 
         {/* Add Patient Multi-Step */}

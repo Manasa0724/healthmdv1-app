@@ -8,7 +8,7 @@ export default [
     {
         id: '2',
         title: 'Field Worker',
-        description: 'Collect patient information, manage health records, chat with MedBot, and view health analytics. Field workers require approval from an admin.',
+        description: 'Collect patient information, manage health records, chat with MedBot, and view health analytics.',
         image: require('../../assets/fieldworker.png'),
     },
     {

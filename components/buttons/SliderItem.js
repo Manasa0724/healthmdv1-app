@@ -51,7 +51,6 @@ const SliderItem = ({ item, navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         marginTop: 30,
         alignItems: 'center',
         padding: 20,
@@ -101,6 +100,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
+        marginBottom: 40,
     }
 })
 
