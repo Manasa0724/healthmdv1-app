@@ -1,11 +1,12 @@
 // screens/AddPatientPersonalScreen.js
 import React, { useState } from 'react';
+import Constants from 'expo-constants';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, Alert, Platform, TouchableOpacity, ActionSheetIOS } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 const genderOptions = ['Male', 'Female', 'Other', 'Prefer not to say'];
-const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
+const SUPABASE_URL = Constants.expoConfig?.extra?.SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = Constants.expoConfig?.extra?.SUPABASE_ANON_KEY || '';
 
 function generatePatientId() {
   return 'PT-' + Math.floor(100000 + Math.random() * 900000);

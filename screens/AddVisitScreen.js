@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import Constants from 'expo-constants';
 import { View, Text, TextInput, Button, ScrollView, StyleSheet, Platform, TouchableOpacity, Modal, FlatList, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
+const SUPABASE_URL = Constants.expoConfig?.extra?.SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = Constants.expoConfig?.extra?.SUPABASE_ANON_KEY || '';
 
 export default function AddVisitScreen({ route, navigation }) {
   // Use the UUID from users table, not unique_id!

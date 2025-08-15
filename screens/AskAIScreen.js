@@ -10,6 +10,7 @@ import {
   appendMessageToSession,
   updateSummary,
   updateSummaryWithEmbedding,
+  fetchSessionsForPatient,
 } from '../utils/DiagnosisSession';
 import { embedText } from '../utils/embeddings';
 
@@ -150,6 +151,7 @@ export default function AskAIScreen({ route }) {
   // similar episodes
   const [similarEpisodes, setSimilarEpisodes] = useState([]); // [{id, created_at, summary, distance}]
   const [similarPromptBlock, setSimilarPromptBlock] = useState(''); // text we tack onto system prompt
+  const [previousChats, setPreviousChats] = useState([]); // [{id, created_at, summary}]
 
   const flatListRef = useRef(null);
   const lastSavedIndexRef = useRef(0); // track persisted messages (excluding system)
@@ -170,6 +172,45 @@ export default function AskAIScreen({ route }) {
       },
     ]);
   }, [patient, visits]);
+
+  // 1.5) mount => fetch previous summarized chats
+  useEffect(() => {
+    async function fetchPreviousChats() {
+      try {
+        const sessions = await fetchSessionsForPatient(patientId, 10);
+        const summarizedSessions = sessions
+          .filter(session => session.summary && session.summary.trim())
+          .slice(0, 3); // Get last 3 summarized chats
+        
+        setPreviousChats(summarizedSessions);
+        
+        if (summarizedSessions.length > 0) {
+          const previousChatsText = summarizedSessions
+            .map((session, index) => {
+              const date = session.created_at?.slice(0, 10) || 'Unknown date';
+              return `Previous Consultation ${index + 1} (${date}):\n${session.summary}`;
+            })
+            .join('\n\n');
+          
+          // Update the system message to include previous chats
+          setMessages(prev => {
+            const updatedSystem = prev[0]?.content + '\n\nPrevious Consultations:\n' + previousChatsText;
+            return [
+              { role: 'system', content: updatedSystem },
+              {
+                role: 'assistant',
+                content: `Hi! I am your virtual diagnostic doctor. I can see your latest visit data and ${summarizedSessions.length} previous consultation(s). Please describe your main concern or symptoms, and I'll take into account your medical history.`,
+              }
+            ];
+          });
+        }
+      } catch (error) {
+        console.warn('Failed to fetch previous chats:', error.message);
+      }
+    }
+    
+    fetchPreviousChats();
+  }, [patientId]);
 
   // 2) mount => fetch similar episodes (via embeddings + RPC)
   useEffect(() => {

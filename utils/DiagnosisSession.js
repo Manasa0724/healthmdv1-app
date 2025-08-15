@@ -6,12 +6,12 @@ import { embedText } from './embeddings';
 const SUPABASE_URL =
   Constants.expoConfig?.extra?.SUPABASE_URL ||
   Constants.manifest?.extra?.SUPABASE_URL ||
-  'https://tddfatkdbisikgjynwwy.supabase.co';
+  '';
 
 const SUPABASE_ANON_KEY =
   Constants.expoConfig?.extra?.SUPABASE_ANON_KEY ||
   Constants.manifest?.extra?.SUPABASE_ANON_KEY ||
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
+  '';
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   console.warn(

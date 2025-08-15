@@ -3,9 +3,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Constants from 'expo-constants';
 
-// !! PLACE YOUR OPENROUTER API KEY HERE !! (for testing; use env for production)
-const OPENROUTER_API_KEY = "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";
+const OPENROUTER_API_KEY = Constants.expoConfig?.extra?.OPENROUTER_API_KEY || '';
 
 const SYSTEM_PROMPT = `
 You are the world's leading virtual diagnostic doctor. A patient presents their visit data in the structured JSON format below.
@@ -84,10 +84,8 @@ export default function AskAIScreen({ navigation, route }) {
 
   // On mount, create initial system prompt message with visit history
   useEffect(() => {
-    const patientName = `${patient.first_name} ${patient.last_name}`.trim();
     const lastVisits = getLastNVisits(visits, 3);
     const systemPrompt = SYSTEM_PROMPT
-      + '\nPatient Name: ' + patientName
       + '\n' + JSON.stringify(lastVisits, null, 2);
     setMessages([
       { role: 'system', content: systemPrompt },

@@ -7,6 +7,7 @@
 // similar visits.
 
 import React, { useEffect, useState } from 'react';
+import Constants from 'expo-constants';
 import {
   View,
   Text,
@@ -19,9 +20,8 @@ import {
 // screens. Because we were instructed not to modify any database
 // schema, we simply read from the existing visits table and do all
 // processing client‑side.
-const SUPABASE_URL = 'https://tddfatkdbisikgjynwwy.supabase.co';
-const SUPABASE_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkZGZhdGtkYmlzaWtnanlud3d5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM0ODE2NzIsImV4cCI6MjA2OTA1NzY3Mn0.K0etM03LKzZGdZZGisnQoAz0b6wBP9-PDAstta1U7sc';
+const SUPABASE_URL = Constants.expoConfig?.extra?.SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = Constants.expoConfig?.extra?.SUPABASE_ANON_KEY || '';
 
 /**
  * Parse a blood pressure string. If the value contains a slash (e.g.
